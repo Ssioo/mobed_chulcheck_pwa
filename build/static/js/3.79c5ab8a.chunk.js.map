@@ -1,0 +1,1 @@
+{"version":3,"sources":["views/home.tsx"],"names":["HomeScreen"],"mappings":"kJAMeA,UAJI,WACjB,OAAQ","file":"static/js/3.79c5ab8a.chunk.js","sourcesContent":["import React from 'react'\r\n\r\nconst HomeScreen = () => {\r\n  return (<div>Home</div>)\r\n}\r\n\r\nexport default HomeScreen"],"sourceRoot":""}

@@ -1,0 +1,21 @@
+{
+  "short_name": "app",
+  "name": "pwa app",
+  "icons": [
+    {
+      "src": "ic_launcher192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "ic_launcher.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "theme_color": "#fdfdfd",
+  "background_color": "#ffffff",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait"
+}
