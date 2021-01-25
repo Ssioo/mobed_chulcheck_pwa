@@ -5,3 +5,4 @@ public/loaderio*
 test-*.js
 .vscode
 .idea
+build/
