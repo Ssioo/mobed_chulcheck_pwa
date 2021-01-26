@@ -7,7 +7,9 @@
     "build": "react-scripts build",
     "start:client": "react-scripts start",
     "start:server": "nodemon --exec \"ts-node\" src/server.ts",
-    "start": "npm-run-all --parallel start:**",
+    "start": "export NODE_ENV=production && npm-run-all --parallel start:**",
+    "dev-w": "set NODE_ENV=development && npm-run-all --parallel start:**",
+    "dev": "export NODE_ENV=development && npm-run-all --parallel start:**",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Cho Yeonwoo <wooisso@naver.com>",

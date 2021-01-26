@@ -58,7 +58,7 @@ server.post('/api/chulcheck', async (req, res) => {
         name: `${fromName}`,
         address: `${fromUser}`
       },
-      to: 'wooisso@gmail.com',
+      to: `${process.env.NODE_ENV !== 'production' ? 'wooisso@gmail.com' : ['wooisso@naver.com']}`,
       subject: `${today.format('YYMMDD')} ${fromName} 출근했습니다.`,
       sender: `${fromUser}`,
       replyTo: `${fromUser}`,

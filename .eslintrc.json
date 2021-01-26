@@ -12,7 +12,10 @@
       "warn",
       "never"
     ],
-    "quotes": ["warn","single"],
+    "quotes": [
+      "warn",
+      "single"
+    ],
     "no-unused-vars": "off"
   }
 }

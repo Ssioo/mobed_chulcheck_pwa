@@ -1,6 +1,6 @@
 {
-  "short_name": "app",
-  "name": "pwa app",
+  "short_name": "모베드출석",
+  "name": "MOBED 출석앱",
   "icons": [
     {
       "src": "ic_launcher192.png",
@@ -8,13 +8,13 @@
       "sizes": "192x192"
     },
     {
-      "src": "ic_launcher.png",
+      "src": "ic_launcher512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
   "theme_color": "#fdfdfd",
-  "background_color": "#ffffff",
+  "background_color": "#fff",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait"
