@@ -7,7 +7,8 @@
       "DOM",
       "ES5",
       "esnext",
-      "DOM.Iterable"
+      "DOM.Iterable",
+      "webworker"
     ],
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
