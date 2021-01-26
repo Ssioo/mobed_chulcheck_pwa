@@ -13,6 +13,7 @@ import { ExpirationPlugin } from 'workbox-expiration'
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
 import { StaleWhileRevalidate } from 'workbox-strategies'
+import { updateWorker } from './serviceWorkerRegistration'
 
 declare const self: ServiceWorkerGlobalScope
 const ignore = self.__WB_MANIFEST
@@ -79,3 +80,10 @@ self.addEventListener('message', (event) => {
 })
 
 // Any other custom service worker logic can go here.
+self.addEventListener('install', (event) => {
+
+})
+
+self.addEventListener('activate', (event) => {
+
+})
