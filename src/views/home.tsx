@@ -35,7 +35,7 @@ const HomeScreen = () => {
     const proceed = confirm(`출석 메일을 보낼까요?${isDev ? '개발모드입니다.' : '프로덕션입니다. 실제로 전송됨 주의!'}`)
     if (!proceed) return
     try {
-      const rawRes = await fetch(`${isDev ? 'http://localhost:3001': 'https://mobedchulcheck.netlify.app'}/api/chulcheck?fromName=${name}&fromUser=${email}`, {
+      const rawRes = await fetch(`${isDev ? 'http://localhost:3001': 'https://mobedchulcheck.netlify.app:3001'}/api/chulcheck?fromName=${name}&fromUser=${email}`, {
         method: 'POST',
       })
       const res = await rawRes.json()
