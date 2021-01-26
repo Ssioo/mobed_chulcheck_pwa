@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "esnext",
+    "module": "CommonJS",
     "target": "esnext",
     "lib": [
       "ES6",
@@ -17,6 +17,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
