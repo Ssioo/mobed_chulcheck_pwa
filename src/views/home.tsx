@@ -5,7 +5,7 @@ import firebase from 'firebase'
 const HomeScreen = () => {
   const [name, setName] = useState('')
   const [today, setToday] = useState(moment())
-  const [location, setLocation] = useState<GeolocationPosition | null>(null)
+  const [location, setLocation] = useState<{ latitude: number, longitude: number }>({ latitude: 127, longitude: 37 })
 
   useEffect(() => {
     const savedName = localStorage.getItem('name')
@@ -15,7 +15,7 @@ const HomeScreen = () => {
     }, 10000)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        setLocation(position)
+        setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude })
       })
     }
     return () => {
@@ -28,7 +28,7 @@ const HomeScreen = () => {
       alert('올바른 이름을 입력해주세요')
       return
     }
-    const token = await firebase.messaging().getToken({vapidKey: 'BFuII-gSgT5PGZwFUktwc49VCUmQURyMGexOTzkOcdS3_rNPDgZ9PJIvvs-1FMCBfIx65CevzmZ2O1mduWlugYM'})
+    const token = await firebase.messaging().getToken({ vapidKey: 'BFuII-gSgT5PGZwFUktwc49VCUmQURyMGexOTzkOcdS3_rNPDgZ9PJIvvs-1FMCBfIx65CevzmZ2O1mduWlugYM' })
     localStorage.setItem('name', name)
     const proceed = confirm('출첵할까요?')
     if (!proceed) return
@@ -48,8 +48,8 @@ const HomeScreen = () => {
           deviceToken: token,
           workType: 1,
           latLng: {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
+            latitude: location.latitude,
+            longitude: location.longitude,
           }
         })
       })
