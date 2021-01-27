@@ -29,6 +29,11 @@ const HomeScreen = () => {
     try {
       const rawRes = await fetch('https://us-central1-mobedchulcheck.cloudfunctions.net/workOn', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        redirect: 'follow',
         body: JSON.stringify({
           userName: name,
           deviceToken: token,
