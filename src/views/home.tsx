@@ -5,6 +5,7 @@ import firebase from 'firebase'
 const HomeScreen = () => {
   const [name, setName] = useState('')
   const [today, setToday] = useState(moment())
+  const [location, setLocation] = useState<GeolocationPosition | null>(null)
 
   useEffect(() => {
     const savedName = localStorage.getItem('name')
@@ -12,6 +13,11 @@ const HomeScreen = () => {
     const interval = setInterval(() => {
       setToday(moment())
     }, 10000)
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setLocation(position)
+      })
+    }
     return () => {
       clearInterval(interval)
     }
@@ -26,6 +32,10 @@ const HomeScreen = () => {
     localStorage.setItem('name', name)
     const proceed = confirm('출첵할까요?')
     if (!proceed) return
+    if (!location) {
+      alert('GPS를 수집하지 못했습니다.\n잠시 후 다시 시도해주세요.')
+      return
+    }
     try {
       const rawRes = await fetch('https://us-central1-mobedchulcheck.cloudfunctions.net/workOn', {
         method: 'POST',
@@ -33,11 +43,14 @@ const HomeScreen = () => {
           'Content-Type': 'application/json',
           Accept: 'application/json'
         },
-        redirect: 'follow',
         body: JSON.stringify({
           userName: name,
           deviceToken: token,
           workType: 1,
+          latLng: {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          }
         })
       })
       const res = await rawRes.json()

@@ -1,21 +1,27 @@
 import React, { Suspense, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, BrowserRouter, HashRouter } from 'react-router-dom'
 
 const Home = React.lazy(() => import('./views/home'))
+const LocationScreen = React.lazy(() => import('./views/location'))
 
 const App: React.FC = () => {
+  useEffect(() => {
+
+  }, [])
   return (
-    <Router>
+    <HashRouter>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
-          <Route path='/'>
-            <Home/>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+          <Route path='/location'>
+            <LocationScreen />
           </Route>
         </Switch>
       </Suspense>
-    </Router>
+    </HashRouter>
   )
 }
-
 
 export default App
