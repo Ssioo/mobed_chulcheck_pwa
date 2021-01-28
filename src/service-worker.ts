@@ -89,5 +89,5 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close()
-  new Clients().openWindow('https://mobedchulcheck.netlify.app/')
+  self.clients.openWindow('https://mobedchulcheck.netlify.app/')
 })
