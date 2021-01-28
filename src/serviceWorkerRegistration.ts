@@ -11,6 +11,7 @@
 // opt-in, read https://cra.link/PWA
 
 import { updateAlert } from './util'
+import { skipWaiting } from 'workbox-core'
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -75,6 +76,7 @@ function registerValidSW(swUrl: string, config?: Config) {
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
               updateAlert()
+              skipWaiting()
 
 
               // Execute callback
