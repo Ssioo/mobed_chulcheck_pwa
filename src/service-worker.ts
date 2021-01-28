@@ -90,5 +90,5 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('notificationclick', (event) => {
   event.notification.close()
   // @ts-ignore
-  client.openWindow('/')
+  event.waitUntil(clients.openWindow('https://mobedchulcheck.netlify.app/'))
 })
