@@ -74,7 +74,8 @@ function registerValidSW(swUrl: string, config?: Config) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
-              updateAlert()
+              updateAlert(registration)
+
 
               // Execute callback
               if (config && config.onUpdate) {
