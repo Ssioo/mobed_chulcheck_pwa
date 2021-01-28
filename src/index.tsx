@@ -4,7 +4,9 @@ import App from './App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import firebase from 'firebase/app'
 import 'firebase/analytics'
-import  'firebase/messaging'
+import 'firebase/messaging'
+import { updateAlert } from './util'
+import { skipWaiting } from 'workbox-core'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCXthCGTDqn-f5Nd0MY5L-Nnxg8g-f6XtQ',
@@ -30,4 +32,9 @@ messaging.onMessage((payload) => {
 
 ReactDOM.render(<App/>, document.getElementById('root'))
 
-serviceWorkerRegistration.register()
+serviceWorkerRegistration.register({
+  onUpdate: (registration) => {
+    updateAlert()
+    skipWaiting()
+  }
+})
