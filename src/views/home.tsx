@@ -137,13 +137,17 @@ const HomeScreen = () => {
 
 const sendLocation = async (deviceToken: string | null, latLng: { latitude: number, longitude: number }) => {
   if (!deviceToken) return
-  await fetch('https://us-central1-mobedchulcheck.cloudfunctions.net/locationOn', {
-    method: 'POST',
-    body: JSON.stringify({
-      latLng,
-      deviceToken
+  try {
+    await fetch('https://us-central1-mobedchulcheck.cloudfunctions.net/locationOn', {
+      method: 'POST',
+      body: JSON.stringify({
+        latLng,
+        deviceToken
+      })
     })
-  })
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export default HomeScreen

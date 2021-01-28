@@ -23,14 +23,16 @@ const messaging = firebase.messaging()
 firebase.messaging().getToken({ vapidKey: 'BFuII-gSgT5PGZwFUktwc49VCUmQURyMGexOTzkOcdS3_rNPDgZ9PJIvvs-1FMCBfIx65CevzmZ2O1mduWlugYM' })
 messaging.onMessage((payload) => {
   console.log('onMessage', payload)
-  navigator.serviceWorker.getRegistration('/').then((registration) => {
-    registration?.showNotification(payload.notification.title, {
-      body: payload.notification.body,
-      icon: payload.notification.icon,
-      badge: payload.notification.icon,
-      vibrate: payload.notification.vibrate ?? payload.notification.vibrateTimingsMillis,
-    })
+  const notification = new Notification(payload.notification.title, {
+    body: payload.notification.body,
+    icon: payload.notification.icon,
+    badge: payload.notification.icon,
+    vibrate: payload.notification.vibrate ?? payload.notification.vibrateTimingsMillis,
   })
+  notification.onclick = (event) => {
+    notification.close()
+    window.open('https://mobedchulcheck.netlify.app/')
+  }
 })
 
 ReactDOM.render(<App/>, document.getElementById('root'))
