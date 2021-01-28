@@ -38,14 +38,7 @@ messaging.onMessage((payload) => {
 addEventListener('notificationclick', (event) => {
   event.notification.close()
   // @ts-ignore
-  event.waitUntil(clients.matchAll({
-    type: 'window'
-  })).then((cs) => {
-    const found = cs.find((c) => ['/', '/#/', '/location', '/members'].includes(c.url) && 'focus' in c)
-    if (found) return found.focus()
-    // @ts-ignore
-    clients.openWindow('https://mobedchulcheck.netlify.app/#/')
-  })
+  event.waitUntil(clients.openWindow('https://mobedchulcheck.netlify.app/#/'))
 })
 
 ReactDOM.render(<App/>, document.getElementById('root'))
