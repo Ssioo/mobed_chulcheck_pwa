@@ -90,5 +90,5 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('notificationclick', (event) => {
   event.notification.close()
   // @ts-ignore
-  clients.openWindow('/')
+  client.openWindow('/')
 })
