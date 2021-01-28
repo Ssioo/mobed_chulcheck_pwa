@@ -50,9 +50,4 @@ addEventListener('notificationclick', (event) => {
 
 ReactDOM.render(<App/>, document.getElementById('root'))
 
-serviceWorkerRegistration.register({
-  onUpdate: (registration) => {
-    updateAlert()
-    skipWaiting()
-  }
-})
+serviceWorkerRegistration.register()
