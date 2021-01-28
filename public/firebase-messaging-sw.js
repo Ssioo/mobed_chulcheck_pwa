@@ -16,6 +16,6 @@ firebase.initializeApp(firebaseConfig)
 const messaging = firebase.messaging()
 
 messaging.onBackgroundMessage((payload) => {
-  console.log(payload)
-  self.registration.showNotification(payload.notification.title, { body: payload.notification.body, icon: 'favicon-16x16.png'})
+  console.log('onBackgroundMessage', payload)
+  //self.registration.showNotification(payload.notification.title, { body: payload.notification.body, icon: 'ic_launcher180.png'})
 })

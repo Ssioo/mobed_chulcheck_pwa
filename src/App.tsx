@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, BrowserRouter, HashRouter } fro
 
 const Home = React.lazy(() => import('./views/home'))
 const LocationScreen = React.lazy(() => import('./views/location'))
+const Members = React.lazy(() => import('./views/members'))
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -17,6 +18,9 @@ const App: React.FC = () => {
           </Route>
           <Route path='/location'>
             <LocationScreen />
+          </Route>
+          <Route path='/members'>
+            <Members />
           </Route>
         </Switch>
       </Suspense>

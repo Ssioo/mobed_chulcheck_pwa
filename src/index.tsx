@@ -22,7 +22,8 @@ firebase.analytics()
 const messaging = firebase.messaging()
 firebase.messaging().getToken({ vapidKey: 'BFuII-gSgT5PGZwFUktwc49VCUmQURyMGexOTzkOcdS3_rNPDgZ9PJIvvs-1FMCBfIx65CevzmZ2O1mduWlugYM' })
 messaging.onMessage((payload) => {
-  console.log(payload)
+  console.log('onMessage', payload)
+  new Notification(payload.notification.title, { body: payload.notification.body })
 })
 
 ReactDOM.render(<App/>, document.getElementById('root'))
