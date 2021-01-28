@@ -6,20 +6,41 @@ const HomeScreen = () => {
   const [name, setName] = useState('')
   const [today, setToday] = useState(moment())
   const [location, setLocation] = useState<{ latitude: number, longitude: number }>({ latitude: 127, longitude: 37 })
+  const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
     const savedName = localStorage.getItem('name')
     setName(savedName ?? '')
-    const interval = setInterval(() => {
+    firebase.messaging()
+      .getToken({ vapidKey: 'BFuII-gSgT5PGZwFUktwc49VCUmQURyMGexOTzkOcdS3_rNPDgZ9PJIvvs-1FMCBfIx65CevzmZ2O1mduWlugYM' })
+      .then((t) => setToken(t))
+
+    const disposal: NodeJS.Timeout[] = []
+    disposal.push(setInterval(() => {
       setToday(moment())
-    }, 10000)
+    }, 10000))
+
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude })
-      })
+      disposal.push(setInterval(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const { latitude, longitude } = position.coords
+          setLocation({ latitude, longitude })
+          if (!token) return
+          fetch('https://us-central1-mobedchulcheck.cloudfunctions.net/locationOn', {
+            method: 'POST',
+            body: JSON.stringify({
+              latLng: { latitude, longitude },
+              deviceToken: token
+            })
+          })
+            .then(() => {})
+            .catch(() => {})
+        })
+      }, 10000))
     }
+
     return () => {
-      clearInterval(interval)
+      disposal.forEach((d) => clearInterval(d))
     }
   }, [])
 
@@ -28,7 +49,6 @@ const HomeScreen = () => {
       alert('올바른 이름을 입력해주세요')
       return
     }
-    const token = await firebase.messaging().getToken({ vapidKey: 'BFuII-gSgT5PGZwFUktwc49VCUmQURyMGexOTzkOcdS3_rNPDgZ9PJIvvs-1FMCBfIx65CevzmZ2O1mduWlugYM' })
     localStorage.setItem('name', name)
     const proceed = confirm('출첵할까요?')
     if (!proceed) return
