@@ -26,7 +26,7 @@ firebase.messaging().getToken({ vapidKey: 'BFuII-gSgT5PGZwFUktwc49VCUmQURyMGexOT
 messaging.onMessage((payload) => {
   console.log('onMessage', payload)
   navigator.serviceWorker.getRegistration('/firebase-cloud-messaging-push-scope').then((registration) => {
-    registration?.showNotification(payload.notification.title, { body: payload.notification.body })
+    registration?.showNotification(payload.notification.title, { body: payload.notification.body, icon: payload.notification.icon })
   })
 })
 
