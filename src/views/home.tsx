@@ -55,7 +55,7 @@ const HomeScreen = () => {
       })
       const res = await rawRes.json()
       if (res.status !== 200) throw Error(res.message ?? 'Network Error')
-      alert('메일을 보냈습니다.')
+      alert('출석했습니다')
     } catch (e) {
       alert(e)
     }
