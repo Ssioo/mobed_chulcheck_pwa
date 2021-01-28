@@ -5,8 +5,6 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import firebase from 'firebase/app'
 import 'firebase/analytics'
 import 'firebase/messaging'
-import { updateAlert } from './util'
-import { skipWaiting } from 'workbox-core'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCXthCGTDqn-f5Nd0MY5L-Nnxg8g-f6XtQ',
@@ -25,7 +23,7 @@ const messaging = firebase.messaging()
 firebase.messaging().getToken({ vapidKey: 'BFuII-gSgT5PGZwFUktwc49VCUmQURyMGexOTzkOcdS3_rNPDgZ9PJIvvs-1FMCBfIx65CevzmZ2O1mduWlugYM' })
 messaging.onMessage((payload) => {
   console.log('onMessage', payload)
-  navigator.serviceWorker.getRegistration('/firebase-cloud-messaging-push-scope').then((registration) => {
+  navigator.serviceWorker.getRegistration('/').then((registration) => {
     registration?.showNotification(payload.notification.title, {
       body: payload.notification.body,
       icon: payload.notification.icon,
