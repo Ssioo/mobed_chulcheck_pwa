@@ -21,20 +21,16 @@ const HomeScreen = () => {
     }, 10000))
 
     if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords
+        setLocation({ latitude, longitude })
+        sendLocation(token, { latitude, longitude })
+      })
       disposal.push(setInterval(() => {
         navigator.geolocation.getCurrentPosition((position) => {
           const { latitude, longitude } = position.coords
           setLocation({ latitude, longitude })
-          if (!token) return
-          fetch('https://us-central1-mobedchulcheck.cloudfunctions.net/locationOn', {
-            method: 'POST',
-            body: JSON.stringify({
-              latLng: { latitude, longitude },
-              deviceToken: token
-            })
-          })
-            .then(() => {})
-            .catch(() => {})
+          sendLocation(token, { latitude, longitude })
         })
       }, 10000))
     }
@@ -137,6 +133,17 @@ const HomeScreen = () => {
       </div>
     </div>
   )
+}
+
+const sendLocation = async (deviceToken: string | null, latLng: { latitude: number, longitude: number }) => {
+  if (!deviceToken) return
+  await fetch('https://us-central1-mobedchulcheck.cloudfunctions.net/locationOn', {
+    method: 'POST',
+    body: JSON.stringify({
+      latLng,
+      deviceToken
+    })
+  })
 }
 
 export default HomeScreen
