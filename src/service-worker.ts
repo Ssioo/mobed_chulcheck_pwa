@@ -86,3 +86,9 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
 
 })
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close()
+  // @ts-ignore
+  window.open('https://mobedchulcheck.netlify.app/#/')
+})

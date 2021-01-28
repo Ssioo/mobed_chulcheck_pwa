@@ -35,12 +35,6 @@ messaging.onMessage((payload) => {
   })
 })
 
-addEventListener('notificationclick', (event) => {
-  event.notification.close()
-  // @ts-ignore
-  event.waitUntil(clients.openWindow('https://mobedchulcheck.netlify.app/#/'))
-})
-
 ReactDOM.render(<App/>, document.getElementById('root'))
 
 serviceWorkerRegistration.register()
