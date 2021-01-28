@@ -26,7 +26,25 @@ firebase.messaging().getToken({ vapidKey: 'BFuII-gSgT5PGZwFUktwc49VCUmQURyMGexOT
 messaging.onMessage((payload) => {
   console.log('onMessage', payload)
   navigator.serviceWorker.getRegistration('/firebase-cloud-messaging-push-scope').then((registration) => {
-    registration?.showNotification(payload.notification.title, { body: payload.notification.body, icon: payload.notification.icon })
+    registration?.showNotification(payload.notification.title, {
+      body: payload.notification.body,
+      icon: payload.notification.icon,
+      badge: payload.notification.icon,
+      vibrate: payload.notification.vibrate ?? payload.notification.vibrateTimingsMillis,
+    })
+  })
+})
+
+addEventListener('notificationclick', (event) => {
+  event.notification.close()
+  // @ts-ignore
+  event.waitUntil(clients.matchAll({
+    type: 'window'
+  })).then((cs) => {
+    const found = cs.find((c) => c.url === '/' && 'focus' in c)
+    if (found) return found.focus()
+    // @ts-ignore
+    clients.openWindow('https://mobedchulcheck.netlify.app/#/')
   })
 })
 
