@@ -41,7 +41,7 @@ addEventListener('notificationclick', (event) => {
   event.waitUntil(clients.matchAll({
     type: 'window'
   })).then((cs) => {
-    const found = cs.find((c) => c.url === '/' && 'focus' in c)
+    const found = cs.find((c) => ['/', '/#/', '/location', '/members'].includes(c.url) && 'focus' in c)
     if (found) return found.focus()
     // @ts-ignore
     clients.openWindow('https://mobedchulcheck.netlify.app/#/')
