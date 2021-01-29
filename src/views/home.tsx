@@ -22,15 +22,11 @@ const HomeScreen = () => {
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords
-        setLocation({ latitude, longitude })
-        sendLocation(token, name, location)
+        setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude })
       })
       disposal.push(setInterval(() => {
         navigator.geolocation.getCurrentPosition((position) => {
-          const { latitude, longitude } = position.coords
-          setLocation({ latitude, longitude })
-          sendLocation(token, name, location)
+          setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude })
         })
       }, 10000))
     }
@@ -39,6 +35,10 @@ const HomeScreen = () => {
       disposal.forEach((d) => clearInterval(d))
     }
   }, [])
+
+  useEffect(() => {
+    sendLocation(token, name, location)
+  }, [token, location])
 
   const onClickSubmit = async () => {
     if (name.length < 2) {
@@ -136,7 +136,6 @@ const HomeScreen = () => {
 }
 
 const sendLocation = async (deviceToken: string | null, name: string, latLng: { latitude: number, longitude: number }) => {
-  console.log('sending...', deviceToken, latLng)
   if (!deviceToken) return
   try {
     await fetch('https://us-central1-mobedchulcheck.cloudfunctions.net/locationOn', {
