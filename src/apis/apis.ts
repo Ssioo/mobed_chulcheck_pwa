@@ -31,10 +31,32 @@ export const fetchMembers = async (): Promise<User[]> => {
       headers: commonHeaders,
     })
     const res = await rawRes.json()
-    if (res.status !== 200) throw Error('Network Error')
+    if (res.status !== 200) throw Error(res.message ?? 'Network Error')
     return res.data
   } catch (e) {
     console.log(e)
     return []
+  }
+}
+
+export const workOn = async (token: string | null, location: LatLng, name: string): Promise<boolean> => {
+  if (!token) return false
+  try {
+    const rawRes = await fetch(`${BASE_URL}/workOn`, {
+      method: 'POST',
+      headers: commonHeaders,
+      body: JSON.stringify({
+        userName: name,
+        deviceToken: token,
+        workType: 1,
+        latLng: location,
+      })
+    })
+    const res = await rawRes.json()
+    if (res.status !== 200) throw Error(res.message ?? 'Network Error')
+    return true
+  } catch (e) {
+    console.log(e)
+    return false
   }
 }

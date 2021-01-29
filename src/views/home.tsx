@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 import firebase from 'firebase'
 import { Link } from 'react-router-dom'
-import { sendLocation } from '../apis/apis'
+import { sendLocation, workOn } from '../apis/apis'
 import { LatLng } from '../models/types'
 
 const HomeScreen = () => {
@@ -24,13 +24,9 @@ const HomeScreen = () => {
     }, 10000))
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude })
-      })
+      initLocation()
       disposal.push(setInterval(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-          setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude })
-        })
+        initLocation()
       }, 10000))
     }
 
@@ -43,42 +39,37 @@ const HomeScreen = () => {
     sendLocation(token, name, location)
   }, [token, location])
 
+  const initLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+    })
+  }
+
   const onClickSubmit = async () => {
     if (name.length < 2) {
       alert('올바른 이름을 입력해주세요')
       return
     }
-    localStorage.setItem('name', name)
     const proceed = confirm('출첵할까요?')
     if (!proceed) return
     if (!location) {
       alert('GPS를 수집하지 못했습니다.\n잠시 후 다시 시도해주세요.')
       return
     }
-    try {
-      const rawRes = await fetch('https://us-central1-mobedchulcheck.cloudfunctions.net/workOn', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify({
-          userName: name,
-          deviceToken: token,
-          workType: 1,
-          latLng: location,
-        })
-      })
-      const res = await rawRes.json()
-      if (res.status !== 200) throw Error(res.message ?? 'Network Error')
-      alert('출석했습니다')
-    } catch (e) {
-      alert(e)
-    }
+    localStorage.setItem('name', name)
+    const res = await workOn(token, location, name)
+    alert(res ? '출석했습니다' : '출석에 실패했습니다')
   }
 
   return (
-    <div style={{ alignItems: 'center', padding: 30, top: '50%', left: '50%', position: 'absolute', transform: 'translate(-50%, -50%)'}}>
+    <div style={{
+      alignItems: 'center',
+      padding: 30,
+      top: '50%',
+      left: '50%',
+      position: 'absolute',
+      transform: 'translate(-50%, -50%)'
+    }}>
       <div style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: '#333', fontFamily: 'Noto Sans KR' }}>
         MOBED 출석체크
       </div>
@@ -109,7 +100,9 @@ const HomeScreen = () => {
         marginTop: 16,
         fontWeight: 300,
         fontFamily: 'Noto Sans KR'
-      }}>{today.format('M월 D일 H시 m분')}</div>
+      }}>
+        {today.format('M월 D일 H시 m분')}
+      </div>
       <button
         style={{
           display: 'block',
@@ -146,7 +139,9 @@ const HomeScreen = () => {
         textAlign: 'center',
         textDecoration: 'auto',
         fontFamily: 'Noto Sans KR'
-      }} to='/members'>멤버</Link>
+      }} to='/members'>
+        멤버
+      </Link>
     </div>
   )
 }
