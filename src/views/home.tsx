@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 import firebase from 'firebase'
+import { Link } from 'react-router-dom'
+import { sendLocation } from '../apis/apis'
+import { LatLng } from '../models/types'
 
 const HomeScreen = () => {
   const [name, setName] = useState('')
   const [today, setToday] = useState(moment())
-  const [location, setLocation] = useState<{ latitude: number, longitude: number }>({ latitude: 127, longitude: 37 })
+  const [location, setLocation] = useState<LatLng>({ latitude: 127, longitude: 37 })
   const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
@@ -63,10 +66,7 @@ const HomeScreen = () => {
           userName: name,
           deviceToken: token,
           workType: 1,
-          latLng: {
-            latitude: location.latitude,
-            longitude: location.longitude,
-          }
+          latLng: location,
         })
       })
       const res = await rawRes.json()
@@ -94,7 +94,8 @@ const HomeScreen = () => {
           outlineWidth: 0.5,
           borderWidth: 0.5,
           paddingBottom: 8,
-          fontFamily: 'Noto Sans KR'
+          fontFamily: 'Noto Sans KR',
+          textAlign: 'center'
         }}
         inputMode='text'
         placeholder='이름'
@@ -109,50 +110,45 @@ const HomeScreen = () => {
         fontWeight: 300,
         fontFamily: 'Noto Sans KR'
       }}>{today.format('M월 D일 H시 m분')}</div>
-      <div style={{ marginTop: 20 }}>
-        <button
-          style={{
-            display: 'block',
-            margin: 'auto',
-            paddingTop: 8,
-            paddingBottom: 8,
-            paddingLeft: 64,
-            paddingRight: 64,
-            fontWeight: 300,
-            color: '#fff',
-            borderWidth: 0,
-            outlineWidth: 0,
-            borderRadius: 24,
-            backgroundColor: '#333',
-            fontFamily: 'Noto Sans KR'
-          }}
-          onClick={onClickSubmit}
-        >
-          출첵
-        </button>
-      </div>
+      <button
+        style={{
+          display: 'block',
+          margin: 'auto',
+          paddingTop: 8,
+          paddingBottom: 8,
+          width: 150,
+          marginTop: 20,
+          fontWeight: 300,
+          color: '#fff',
+          borderWidth: 0,
+          outlineWidth: 0,
+          borderRadius: 24,
+          backgroundColor: '#333',
+          fontFamily: 'Noto Sans KR'
+        }}
+        onClick={onClickSubmit}
+      >
+        출첵
+      </button>
+      <Link style={{
+        display: 'block',
+        paddingTop: 8,
+        paddingBottom: 8,
+        fontWeight: 'bold',
+        color: '#333',
+        borderWidth: 0,
+        outlineWidth: 0,
+        borderRadius: 24,
+        width: 150,
+        margin: 'auto',
+        marginTop: 4,
+        fontSize: 12,
+        textAlign: 'center',
+        textDecoration: 'auto',
+        fontFamily: 'Noto Sans KR'
+      }} to='/members'>멤버</Link>
     </div>
   )
-}
-
-const sendLocation = async (deviceToken: string | null, name: string, latLng: { latitude: number, longitude: number }) => {
-  if (!deviceToken) return
-  try {
-    await fetch('https://us-central1-mobedchulcheck.cloudfunctions.net/locationOn', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({
-        latLng,
-        name,
-        deviceToken
-      })
-    })
-  } catch (e) {
-    console.log(e)
-  }
 }
 
 export default HomeScreen

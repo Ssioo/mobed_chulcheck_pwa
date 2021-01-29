@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import { RenderAfterNavermapsLoaded, NaverMap } from 'react-naver-maps'
+import { fetchMembers } from '../apis/apis'
 
 const LocationScreen = () => {
   useEffect(() => {
+    fetchMembers()
   }, [])
   return (<div style={{ width: '100%', height: window.screen.height, display: 'flex' }}>
     <RenderAfterNavermapsLoaded

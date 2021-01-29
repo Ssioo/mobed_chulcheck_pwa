@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react'
-import { Switch, Route, HashRouter } from 'react-router-dom'
+import { Switch, Route, HashRouter, Link } from 'react-router-dom'
 
 const Home = React.lazy(() => import('./views/home'))
 const LocationScreen = React.lazy(() => import('./views/location'))
