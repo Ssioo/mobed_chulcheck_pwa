@@ -78,7 +78,7 @@ const HomeScreen = () => {
   }
 
   return (
-    <div style={{ alignItems: 'center', padding: 30 }}>
+    <div style={{ alignItems: 'center', padding: 30, top: '50%', left: '50%', position: 'absolute', transform: 'translate(-50%, -50%)'}}>
       <div style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: '#333', fontFamily: 'Noto Sans KR' }}>
         MOBED 출석체크
       </div>
