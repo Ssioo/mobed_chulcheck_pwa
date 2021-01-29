@@ -30,6 +30,7 @@ const HomeScreen = () => {
         navigator.geolocation.getCurrentPosition((position) => {
           const { latitude, longitude } = position.coords
           setLocation({ latitude, longitude })
+          console.log('sending...')
           sendLocation(token, { latitude, longitude })
         })
       }, 10000))
@@ -140,6 +141,10 @@ const sendLocation = async (deviceToken: string | null, latLng: { latitude: numb
   try {
     await fetch('https://us-central1-mobedchulcheck.cloudfunctions.net/locationOn', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
       body: JSON.stringify({
         latLng,
         deviceToken
